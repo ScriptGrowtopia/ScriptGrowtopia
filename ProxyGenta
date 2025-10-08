@@ -1,0 +1,1026 @@
+-- function names
+SendPacket = sendPacket
+SendPacketRaw = sendPacketRaw
+SendVariant = sendVariant
+GetLocal = getLocal
+SleepMS = sleep
+GetPlayerByNetID = getPlayerByNetID
+GetWorldObject = getWorldObject
+LogToConsole = logToConsole
+CheckTile = checkTile
+GetTile = getTile
+GetInventory = getInventory
+GetItemByID = getItemByID
+GetPlayerList = getPlayerList
+FindPath = findPath
+
+SleepS = function(int_s)
+  sleep(int_s * 1000)
+end
+
+ -- main vars
+ -- configuration 
+ local proxy = {} 
+ local command = {} 
+ local user = {} 
+ local config = {} 
+ local PlayerList = {}
+ local LogSpin = {}
+ -- local nPlayerList = {}
+  local itemInfo = {}
+  proxy.version = "v1.4" 
+  version="v1.4"
+ 
+ command.var = {} 
+ command.var.taptp = false
+  command.var.rfspin = false
+  
+  -- checkbox vars
+  local rfspin = true
+ local reme
+ local qeme
+ 
+  -- textinput vars
+ local firstnum = "10"
+ local op = "sum"
+ local secondnum = "10"
+ 
+ 
+ 
+ 
+--[[
+
+!!!
+-> PLEASE DO NOT EDIT PROXY SOURCE CODES.
+-> DO NOT RE-SELL / LEAK
+
+
+
+version 2.6
+!!!
+
+]]
+ 
+wrenchop = [[add_label_with_icon|big|`2[W i R U P] `5Wrench|left|11816|
+add_spacer|small|
+text_scaling_string|asdasdasdsaas|
+add_button_with_icon|wdef|`wWrench Default|staticBlueFrame|278|| 
+add_button_with_icon|wpull|`wWrench Pull|staticBlueFrame|274||
+add_button_with_icon|wkick|`wWrench Kick|staticBlueFrame|276||
+add_button_with_icon|wban|`wWrench Ban|staticBlueFrame|732||
+add_button_with_icon||END_LIST|noflags|0||
+add_spacer|small|
+end_dialog|wh|Ok|
+]]
+
+done = [[add_label_with_icon|big|`2[W i R U P]`0 Commands Gazette|left|11816|
+add_spacer|big|
+add_textbox|`8Feature Drop Item|
+add_textbox|`6/bd [Amount] Drop `eBlue Gem Lock|
+add_textbox|`6/dd [Amount] Drop `1Diamond Lock|
+add_textbox|`6/wd [Amount] Drop `9World Lock|
+add_textbox|`6/cd [Amount] `9Drop And Break Lock If U Have DL|
+add_textbox|`6/daw `9[Drop All Lock]|
+add_spacer|small|
+add_label_with_icon|small|`8Feature Host Helper|left|340|
+add_textbox|`6/tax {amount} `9( if you want setting tax 10% just do /tax 10 ) |
+add_textbox|`6/bet `9(Like 1P Droped 50 WorldLock And 2P Droped 50 WorldLock Then Bet Is 50)|
+add_textbox|`6/take `9(Take Bets Pos1/2)|
+add_textbox|`6/pos1-2 `9Set Pos 1-2|
+add_textbox|`6/w1-2 `9Drop To winner Before Do That Command Pls Set Bet Or Take Bet First /take or /bet|
+add_textbox|`6/spinlog`9 [show roulette spin log]||
+add_spacer|small|
+add_label_with_icon|small|`8Fast Command|left|18|
+add_textbox|`6/ft `9(Fast Trash)|
+add_textbox|`6/fd `9(Fast Drop)|
+add_textbox|`6/rr `9(Relogin)|
+add_textbox|`6/taptp`9(you will be teleported to anywhere you touch (like PathFinder)||
+add_textbox|`6/calc`9 [open calculator dialog]||
+add_textbox|`6/wr1 `9(Fast Pull Like Silver Proxy) `5[ HAVE BUG ]|
+add_textbox|`6/wr2 `9(Fast Kick Like Silver Proxy) `5[ HAVE BUG ]|
+add_textbox|`6/wr3 `9(Fast Ban Like Silver Proxy) `5[ HAVE BUG ]|
+add_textbox|`6/wn `9(Wrench Normal)|
+add_textbox|`6/wp `9(Warp World)|
+add_spacer|small|
+add_label_with_icon|big|`6Hosting Helper:|left|32|
+add_button|proxywrenchm|`wExtra Cheats|
+add_button|proxylogspin|`wSpin History|
+add_spacer|big|
+add_label_with_icon|small|`6The Proxy Was made By `6(`8W i R U P`6)|left|32|
+add_textbox|`7Please do not change anything in the script `4(it will ercon if change) `7|
+add_textbox|`cEnjoy this script - W i R U P|
+end_dialog|bye|exit|Okay|
+add_quick_exit|
+]]
+
+function dext()
+return [[
+add_label_with_icon|big|``Hosting Helper    |left|32|
+text_scaling_string|iprogramtext
+add_spacer|big|
+add_checkbox|realfakespin|`2REAL``-`4FAKE`` Spin Detection|]]..realfakes..[[|
+add_checkbox|gamereme|Reme Checker|]]..remeg..[[|
+add_checkbox|gameqeme|Qeme Checker|]]..qemeg..[[|
+add_spacer|big|
+end_dialog|proxywrenchend|Close|Set|
+]]
+end
+
+function calcu()
+return [[
+set_default_color|`7
+add_label_with_icon|big|`9Calculator                      |left|5016|
+add_spacer|small|
+add_text_input|fnum|First number|]]..firstnum..[[|25|
+add_text_input|opr|(sum, sub, multi, divide)|]]..op..[[|25|
+add_text_input|snum|Second number|]]..secondnum..[[|25|
+add_spacer|big|
+end_dialog|calculatorpage|Cancel|Calculate|
+]]
+end
+local sum = [[
+add_label_with_icon|big|`9Calculator Result               |big|5016|
+add_spacer|small|
+add_textbox|Result: `2]].. math.floor(firstnum + secondnum) ..[[||
+add_spacer|big|
+add_button|backtocalc|`wBack to calc page|
+add_quick_exit|
+]]
+
+loginp = [[
+set_default_color|`7
+add_label_with_icon|big|`2[W i R U P`2]`` Information Page              |left|11816|
+add_spacer|small|
+add_smalltext|Subs YouTube WirupGT|
+add_smalltext|Enjoy my script.|
+add_spacer|big|
+add_label_with_icon|big|`9Info Logs|left|32|
+add_label_with_icon|small|Added `6/proxy|left|482|
+add_label_with_icon|small|Added `6Spin  ``log. |left|482|
+add_label_with_icon|small|Added show  `6number  ``on name. |left|482|
+add_label_with_icon|small|Added `6[`2Real`0/`4Fake`6]  ``detector. |left|482|
+add_label_with_icon|small|Added `6/spinlog  ``command. |left|482|
+add_label_with_icon|small|Added `6Reme ``and `6Qeme  ``hosting commands. |left|482|
+add_label_with_icon|small|Added `6Some fixes  ``on other misc. |left|482|
+
+add_spacer|big|
+add_url_button||`3Discord Group|NOFLAGS|https://chat.whatsapp.com/DS1isxa7GRU8gXKv6NEP9s|Would You like to visit our Whatsapp Group?|0|0|
+add_spacer|small|
+end_dialog|loginpend|Close||
+]]
+
+itemInfo = {}
+data = {}
+
+ftrash = false
+fdrop = false
+pull = false
+kick = false
+ban = false
+Tax = 0
+
+function DropItem(id, count)
+sendPacket(2,"action|drop\n|itemID|"..id.."\n")
+sendPacket(2, "action|dialog_return\ndialog_name|drop_item\nitemID|"..id.."|\ncount|"..count.."\n")
+end
+
+function TrashItem(idtem, brp)
+sendPacket(2,"action|trash\nitemID|"..idtem.."\n")
+sendPacket(2,"action|dialog_return\ndialog_name|trash_item\nitemID|"..idtem.."|\ncount|"..brp.."\n")
+end
+
+function take(id)
+    x = 0
+    y = 0
+    sendPacket(2,"action|dialog_return\ndialog_name|extractor\ntilex|"..x.."|\ntiley|"..y.."|\nstartIndex|0|\nextractorID|6140|\nbuttonClicked|extractOnceObj_"..tostring(id))
+end
+
+function getItemObject()
+    for _,item in pairs(getWorldObject()) do
+        table.insert(itemInfo,"\nadd_label_with_icon_button|small|`7Name : "..getItemByID(item.id).name.." `7Amount : [`5"..item.amount.."``]|left|"..item.id.."|"..item.oid.."|\n")
+    end
+end
+
+function checkitm(id)
+for _, inv in pairs(getInventory()) do 
+if inv.id == id then 
+return inv.amount 
+end 
+end 
+return 0 
+end 
+
+function Data()
+Amount = 0
+for _, list in pairs(data) do
+Name = ""
+if list.id == 7188 then
+Name = "Blue Gem Lock"
+Amount = Amount + list.count * 10000
+elseif list.id == 1796 then
+Name = "Diamond Lock"
+Amount = Amount + list.count * 100
+elseif list.id == 242 then
+Name = "World Lock"
+Amount = Amount + list.count
+end
+tol("Collected `9"..list.count.." "..Name)
+end
+data = {}
+end
+
+function colect()
+tiles = {
+    {PX1, PY1}, 
+    {PX2, PY2}
+    }
+    for _, obj in pairs(getWorldObject()) do
+        for _, tiles in pairs(tiles) do
+            if (obj.pos.x)//32 == tiles[1] and (obj.pos.y)//32 == tiles[2] then
+sendPacketRaw(false, {type=11,value=obj.oid,x=obj.pos.x,y=obj.pos.y})
+table.insert(data, {id=obj.id, count=obj.amount})
+            end
+        end
+    end
+Data()
+data = {}
+end
+
+function wear(id)
+pkt = {}
+pkt.type = 10
+pkt.value = id
+sendPacketRaw(false, pkt)
+end
+
+function GetName(id)
+    for _, name in pairs(PlayerList) do
+        if name.netid == id then
+            return name.name
+        end
+    end
+end
+
+ function multiboxChecker(boolean)
+    local hasil = ""
+    if boolean then
+        hasil = "1"
+        else
+            hasil = "0"
+    end
+    return hasil
+ end
+ 
+  function qemefunc(number)
+    if number >= 10 then
+        hasil = string.sub(number, -1)
+    else
+        hasil = number
+    end
+    return hasil
+end
+
+function getGame(num)
+    if reme and not qeme then
+        return "`2[R:"..remefunc(tonumber(num)).."]"
+    elseif not reme and qeme then
+            return "`2[Q:"..qemefunc(tonumber(num)).."]"
+    elseif reme and qeme then
+            return "`2[R:"..remefunc(num).." and Q:"..qemefunc(num).."]"
+            else
+                return ""
+    end
+end
+
+function remefunc(number)
+    if number == 19 or number == 28 or number == 0 then
+        hasil = 0
+    else
+        num1 = math.floor(number / 10)
+        num2 = number % 10
+        hasil = string.sub(tostring(num1 + num2), -1)
+    end
+    return hasil
+end
+
+function filterspin(id)
+    filterLog = {}
+    for _,log in pairs(LogSpin) do
+        if log.netid == id then
+            table.insert(filterLog,"\nadd_label_with_icon|small|"..log.spin.."|left|758|\n")
+        end
+    end
+    SendVariant({
+                [0] = "OnDialogRequest",
+                [1] = "add_label_with_icon|big|`7"..GetName(id).." Spin: |left|32|\nadd_spacer|small|\n"..table.concat(filterLog).."\nadd_quick_exit|||\nend_dialog|spinfilter|Close||",
+                },-1,200)
+end
+
+function logspin()
+    dialogSpin = {}
+    for _,spin in pairs(LogSpin) do
+        table.insert(dialogSpin,spin.spin)
+    end
+    SendVariant({
+        [0] = "OnDialogRequest",
+        [1] = "add_label_with_icon|big|Log Spin|left|758|\nadd_spacer|small|\nadd_smalltext|Click The Wheel Button For Filter Player You Need|\n"..table.concat(dialogSpin).."\nadd_quick_exit|||\nend_dialog|world_spin|Close||",
+        },-1,200)
+end
+
+function AddOrUpdatePlayer(name, netid)
+    if PlayerList[netid] == nil or PlayerList[netid].name ~= name then
+        PlayerList[netid] = {name = name, netid = netid}
+    end
+end
+
+ function user_changename(name) 
+   SendVariant({ 
+           [0] = "OnNameChanged", 
+       [1] = name, 
+   }, GetLocal().netid, 100) 
+ end 
+ 
+  function sendVisualMessage(str)
+    SendVariant({
+        [0] = "OnTalkBubble",
+        [1] = GetLocal().netid,
+        [2] = str,
+        [3] = 0,
+    },-1)
+end
+  
+ function GetRealName(id)
+    for _, g in pairs(GetPlayerlist()) do
+        if g.netid == id then
+            return g.name
+        end
+    end
+end
+
+function GetName(id)
+    for _, name in pairs(PlayerList) do
+        if name.netid == id then
+            return name.name
+        end
+    end
+end
+
+function ovlay(str)
+var = {}
+var[0] = "OnTextOverlay"
+var[1] = "[`#W i R U P``] " .. str
+sendVariant(var)
+end
+
+function tol(txt)
+logToConsole("`o[`#W i R U P`o] `6"..txt)
+end
+
+AddHook("onTextPacket", "packet",
+function(type,packet)
+
+
+  -- checkboxs
+    if packet:find("realfakespin|1") then
+    rfspin = true
+    tol("`2REAL``-`4FAKE`` spin detection `2enabled.")
+  else if packet:find("realfakespin|0") then
+    rfspin = false
+  end
+  end
+  if packet:find("gamereme|1") then
+    reme = true
+    tol("Reme checker `2enabled")
+  else if packet:find("gamereme|0") then
+    reme = false
+  end
+  end
+  if packet:find("gameqeme|1") then
+    qeme = true
+    tol("Qeme checker `2enabled")
+  else if packet:find("gameqeme|0") then
+    qeme = false
+  end
+  end
+  if packet:find("dialog_name|world_spin\nbuttonClicked|(%d+)") then
+        netid = packet:match("buttonClicked|(%d+)")
+        filterspin(tonumber(netid))
+  end
+  
+     if packet:find("buttonClicked|proxylogspin") then
+       logspin()
+     return true
+   end
+   
+      if packet:find("buttonClicked|proxywrenchm") then
+     realfakes = multiboxChecker(rfspin)
+     remeg = multiboxChecker(reme)
+     qemeg = multiboxChecker(qeme)
+     
+     
+     SendVariant({
+     	[0] = "OnDialogRequest",
+         [1] = dext(),
+     }, -1, 100)
+   end
+   
+   
+     -- /spinlog command
+   if packet:find("/spinlog") then
+       logspin()
+     return true
+   end
+
+if packet:find("action|friends") then
+var = {}
+var[0] = "OnDialogRequest"
+var[1] = wrenchop
+sendVariant (var);
+logToConsole("Wrench Option")
+return true
+end
+
+if packet:find("/proxy") then
+var = {}
+var[0] = "OnDialogRequest"
+var[1] = done
+sendVariant (var);
+logToConsole("https://discord.gg/Txvdtdzu7X")
+return true
+end
+
+    if packet:find("/dd (%d+)") or packet:find("/Dd (%d+)") then
+ txt = packet:match("action|input\n|text|/dd (%d+)")
+DropItem(1796, txt)
+tol("Succes Drop `0"..txt.." `2Diamond Lock")
+return true
+end
+
+if packet:find("/tax (%d+)") or packet:find("/tax (%d+)") then
+pler = packet:match("/tax (%d+)") or packet:match("/tax (%d+)")
+Tax = ""..pler..""
+ovlay("Tax : "..pler.."%")
+return true
+end
+
+    if packet:find("/wd (%d+)") or packet:find("/Wd (%d+)") then
+ txt = packet:match("action|input\n|text|/wd (%d+)")
+DropItem(242, txt)
+tol("Succes Drop `0"..txt.." `2World Lock")
+return true
+end
+
+ if packet:find("/bg (%d+)") or packet:find("/Bg (%d+)") then
+ txt = packet:match("action|input\n|text|/bg (%d+)")
+DropItem(7188, txt)
+tol("`2Succes Drop `0"..txt.." `2Blue Gem Lock")
+return true
+end
+
+if packet:find("/wp (.+)") or packet:find("/Wp (.+)") then
+namew = packet:match("/wp (.+)") or packet:match("/Wp (.+)")
+ovlay("`#Warping To `6"..namew)
+sendPacket(3, "action|join_request\n|name|"..namew.."\n|invitedWorld|0")
+return true
+end
+
+if packet:find("/help") or packet:find("/Help") or packet:find("/Fitur") or packet:find("/fitur") then
+tol("`1\nDrop Command >> /w (amount) /d (amount) /b (amount) /cd (amount)\nBJ Feature >> /pos1-2 Set Pos, /take Take Bets, /w1-2 Drop To Winner /bet (howmuch bet if 1P Drop 50 World Lock and 2P Droped 50 World Lock Then Bet Is 50)\n/stax (howmuch Tax) Set Tax For Host\n/fd Fast Drop /ft Fast Trash\n/wp Fast Warp\nMaybe We Will Add More Feature")
+return true
+end
+
+if packet:find("/pos1") or packet:find("/Pos1")then
+PX1 = getLocal().pos.x//32
+PY1 = getLocal().pos.y//32
+ovlay("Succes Set ("..PX1..", "..PY1..")")
+return true
+end
+
+if packet:find("/pos2") or packet:find("/Pos2") then
+PX2 = getLocal().pos.x//32
+PY2 = getLocal().pos.y//32
+ovlay("Succes Set ("..PX2..", "..PY2..")")
+return true
+end
+
+if packet:find("/bet (%d+)") or packet:find("/Bet (%d+)") then
+TotalBet = packet:match("/bet (%d+)") or packet:match("/Bet (%d+)")
+TotalBets = TotalBet * 2
+Yah = math.floor(TotalBets * Tax / 100)
+drop = TotalBets - Yah
+ovlay("`9["..Tax.."%] Drop ["..drop.."]")
+return true
+end
+
+if packet:find("/take") or packet:find("/Take") then
+colect()
+tax = math.floor(Amount * Tax / 100)
+drop = Amount - tax
+bets = Amount//2
+tol("`9Tax : `"..Tax.."%")
+tol("`9Total drop : `9"..drop)
+tol("`9Succes Take")
+ovlay("`9["..Tax.."%] Drop ["..drop.."]")
+return true
+end
+
+if packet:find("/w1") or packet:find("/W1") then
+bgl =math.floor(drop/10000)
+drop = drop - bgl*10000 
+dl = math.floor(drop/100)
+wl = drop % 100
+sendPacketRaw(false, { type = 0, x = (PX1) * 32, y = (PY1) * 32, state = 48 })
+if checkitm(242) < wl then
+wear(1796)
+end
+if checkitm(1796) < dl then
+wear(7188)
+end
+if bgl > 0 then
+DropItem(7188, bgl)
+end
+if dl > 0 then
+DropItem(1796, dl)
+end
+if wl > 0 then
+DropItem(242, wl)
+end
+hasil = (bgl ~= 0 and bgl.." `eBlue Gem Lock`0" or "").." "..(dl ~= 0 and dl.." `1Diamond Lock`0" or "").." "..(wl ~= 0 and wl.." `9World Lock`0" or "")
+tol("`9Amount Lock : "..Amount)
+tol("`9Tax : "..Tax.."%")
+tol("`9Total drop : `0"..hasil.." `4Tax Reset")
+return true
+end
+
+if packet:find("/w2") or packet:find("/W2")then
+bgl =math.floor(drop/10000)
+drop = drop - bgl*10000 
+dl = math.floor(drop/100)
+wl = drop % 100
+sendPacketRaw(false, { type = 0, x = (PX2) * 32, y = (PY2) * 32, state = 32 })
+if checkitm(242) < wl then
+wear(1796)
+end
+if checkitm(1796) < dl then
+wear(7188)
+end
+if bgl > 0 then
+DropItem(7188, bgl)
+end
+if dl > 0 then
+DropItem(1796, dl)
+end
+if wl > 0 then
+DropItem(242, wl)
+end
+hasil = (bgl ~= 0 and bgl.." `eBlue Gem Lock`0" or "").." "..(dl ~= 0 and dl.." `1Diamond Lock`0" or "").." "..(wl ~= 0 and wl.." `9World Lock`0" or "")
+tol("`9Amount Lock : "..Amount)
+tol("`9Tax : "..Tax.."%")
+tol("`9Total drop : `0"..hasil.." `4Tax Reset")
+return true
+end
+
+if packet:find("/cd (%d+)") or packet:find("/Cd (%d+)") then
+total = packet:match("/cd (%d+)") or packet:match("/Cd (%d+)")
+logToConsole("`9Use Fitur : /cd")
+bgl =math.floor(total/10000)
+total = total - bgl*10000 
+dl = math.floor(total/100)
+wl = total % 100
+if checkitm(242) < wl then
+wear(1796)
+end
+if checkitm(1796) < dl then
+wear(7188)
+end
+if bgl > 0 then
+DropItem(7188, bgl)
+end
+if dl > 0 then
+DropItem(1796, dl)
+end
+if wl > 0 then
+DropItem(242, wl)
+end
+hasil = (bgl ~= 0 and bgl.." `eBlue Gem Lock`0" or "").." "..(dl ~= 0 and dl.." `1Diamond Lock`0" or "").." "..(wl ~= 0 and wl.." `9World Lock`0" or "")
+tol("`9Total drop : `0"..hasil)
+return true
+end
+
+if packet:find("/fd") or packet:find("/Fd") then
+if fdrop == false then
+fdrop = true
+ftrash = false
+ovlay("Fast Drop Enable")
+else
+if fdrop == true then
+fdrop = false
+ovlay("Fast Drop Disable")
+return true
+end
+end
+end
+
+if packet:find("/ft") or packet:find("/Ft") then
+if ftrash == false then
+ftrash = true
+fdrop = false
+ovlay("Fast Trash Enable")
+else
+if ftrash == true then
+ftrash = false
+ovlay("Fast Trash Disable")
+return true
+end
+end
+end
+
+if packet:find("/daw") then
+DropItem(7188, checkitm(7188))
+DropItem(1796, checkitm(1796))
+DropItem(242, checkitm(242))
+return true
+end
+
+    if packet:find("action|dialog_return\ndialog_name|wh\nbuttonClicked|wpull") or packet:find("/wr1") then
+        if pull == false then
+            pull = true
+            kick = false
+            ban = false
+            ovlay("Pull Mode Enable")
+            else
+                pull = false
+                kick = false
+                ban = false
+                ovlay("Pull Mode Disable")
+                return true
+        end
+    end
+    if packet:find("action|dialog_return\ndialog_name|wh\nbuttonClicked|wban") or packet:find("/wr2") then
+        if ban == false then
+            ban = true
+            pull = false
+            kick = false
+            ovlay("Ban Mode Enable")
+            else
+                ban = false
+                pull = false
+                kick = false
+                ovlay("Ban Mode Disable")
+                return true
+        end
+    end
+    if packet:find("action|dialog_return\ndialog_name|wh\nbuttonClicked|wkick") or packet:find("/wr3") then
+        if kick == false then
+            kick = true
+            ban = false
+            pull = false
+            ovlay("Kick Mode Enable")
+            else
+                kick = false
+                ban = false
+                pull = false
+                ovlay("Kick Mode Disable")
+return true
+        end
+    end
+
+if packet:find("action|dialog_return\ndialog_name|wh\nbuttonClicked|wdef") or packet:find("/wn") then
+            kick = false
+            ban = false
+            pull = false
+ovlay("Wrench DEFAULT")
+return false
+end
+-- Execute Wrench Mode
+    if packet:find("action|wrench\n|netid|(%d+)") then 
+        id = packet:match("action|wrench\n|netid|(%d+)")
+        if pull == true then
+        sendPacket(2,"action|wrench\n|netid|"..id)
+            sendPacket(2,"action|dialog_return\ndialog_name|popup\nnetID|"..id.."|\nnetID|"..id.."\nbuttonClicked|pull")
+            for _, player in pairs(GetPlayerlist()) do
+if player.netid == tonumber(id) then
+ovlay("Succesfully `5Pulls `0"..player.name.."..")
+end
+end
+            return true
+        end
+    end
+    if packet:find("action|wrench\n|netid|(%d+)") then 
+        id = packet:match("action|wrench\n|netid|(%d+)")
+        if kick == true then
+        sendPacket(2,"action|wrench\n|netid|"..id)
+            sendPacket(2,"action|dialog_return\ndialog_name|popup\nnetID|"..id.."|\nnetID|"..id.."\nbuttonClicked|kick")
+            for _, player in pairs(GetPlayerlist()) do
+if player.netid == tonumber(id) then
+ovlay("Succesfully `4Kicks `0"..player.name.."..")
+end
+end
+            return true
+        end
+    end
+    if packet:find("action|wrench\n|netid|(%d+)") then 
+        id = packet:match("action|wrench\n|netid|(%d+)")
+        if ban == true then
+        sendPacket(2,"action|wrench\n|netid|"..id)
+            sendPacket(2,"action|dialog_return\ndialog_name|popup\nnetID|"..id.."|\nnetID|"..id.."\nbuttonClicked|worldban")
+            for _, player in pairs(GetPlayerlist()) do
+if player.netid == tonumber(id) then
+ovlay("Succesfully `4World Ban `0"..player.name.."..")
+end
+end
+            return true
+        end
+    end
+    
+    
+     if packet:find("/taptp") then
+        if command.var.taptp == true then
+          command.var.taptp = false
+          tol("Tap tp `4disabled.")
+        else
+          command.var.taptp = true
+          tol("Tap tp `2enabled.")
+        end
+      return true
+    end
+
+    -- calculator menu
+    -- calculator helped by ninemoca
+    if packet:find("dialog_name|calculatorpage") then
+      firstnum = tonumber(packet:match("fnum|(%d+)"))
+      op = tostring(packet:match("opr|(%w+)"))
+      secondnum = tonumber(packet:match("snum|(%d+)"))
+      
+      if op == "sum" then
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = sum,
+        },-1)
+      else if op == "sub" then
+        local sub = [[
+add_label_with_icon|big|`9Calculator Result               |big|5016|
+add_spacer|small|
+add_textbox|Result: `2]].. math.floor(firstnum - secondnum) ..[[||
+add_spacer|big|
+add_button|backtocalc|`wBack to calc page|
+add_quick_exit|
+]]
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = sub,
+        },-1)
+      else if op == "multi" then
+        multi = [[
+add_label_with_icon|big|`9Calculator Result               |big|5016|
+add_spacer|small|
+add_textbox|Result: `2]].. math.floor(firstnum * secondnum) ..[[||
+add_spacer|big|
+add_button|backtocalc|`wBack to calc page|
+add_quick_exit|
+]]
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = multi,
+        },-1)
+      else if op == "divide" then
+        divide = [[
+add_label_with_icon|big|`9Calculator Result               |big|5016|
+add_spacer|small|
+add_textbox|Result: `2]].. math.floor(firstnum / secondnum) ..[[||
+add_spacer|big|
+add_button|backtocalc|`wBack to calc page|
+add_quick_exit|
+]]
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = divide,
+        },-1)
+      else
+        errorpage = [[
+add_label_with_icon|big|`9Calculator Result         |left|5016|
+add_spacer|small|
+add_textbox|`4[ERROR]||
+add_spacer|big|
+add_button|backtocalc|`wBack to calc page|
+add_quick_exit|
+]]
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = errorpage,
+        },-1)
+      end
+      end
+      end
+      end
+      return true
+    end
+    if packet:find("buttonClicked|backtocalc") then
+      sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = calcu(),
+      },-1)
+      return true
+    end
+    if packet:find("/calc") then
+        sendVariant({
+      	[0] = "OnDialogRequest",
+          [1] = calcu(),
+         },-1,100)
+      return true
+    end
+    
+    
+     if packet:find("/rr") then
+       SendPacket(3, "action|quit")
+       tol("Reloged.")
+     return true
+   end
+
+
+
+
+
+
+ return false
+end)
+
+ -- ON_TOUCH
+ -- fixed: 2.5
+function on_touchpacket(x, y)
+   if command.var.taptp == true then
+     tx = getLocal().pos.x // 32
+     ty = getLocal().pos.y // 32
+     SleepS(1)
+     ovlay("`9Teleporting: `2[x: "..tx.." & y: "..ty.."]")
+     FindPath(x // 32, y // 32)
+     command.var.taptp = false
+     logToConsole("``[`#W i R U P``] `6Tap tp `4disabled.")
+     --[[
+     ercon
+     SleepS(1)
+     command.var.taptp = true
+     ]]
+   end
+end
+
+
+AddHook("onTouch", "on_touch", on_touchpacket)
+ AddHook("OnVarlist", "variants", function(var) 
+     varcontent = var[1] 
+     if var[0] == "OnConsoleMessage" then 
+       tol(varcontent) 
+       return true 
+   end
+    
+    if rfspin == true then
+      if var[0] == "OnTalkBubble" then
+        if var[2]:find("spun the wheel") then
+            if var[2]:find("OID:") then
+                SendVariant({
+                    [0] = "OnTalkBubble",
+                    [1] = var[1],
+                    [2] = "`7[`4FAKE``]" .. var[2]:match("player_chat=(.+)"),
+                    [3] = 0,
+                }, -1)
+                table.insert(LogSpin, {
+                    spin = "\nadd_label_with_icon_button|small|`7[`4FAKE``] " .. var[2] .. "|left|758|" .. var[1] .. "|\n",
+                    netid = var[1]
+                ,spins = "`7[`4FAKE``]"..var[2]})
+                return true
+            else
+                local num = string.gsub(string.gsub(var[2]:match("and got (.+)"), "!%]", ""), "`", "")
+                local onlynumber = string.sub(num, 2)
+                local clearspace = string.gsub(onlynumber, " ", "")
+                local h = string.gsub(string.gsub(clearspace, "!7", ""), "]", "")
+                if var[1] ~= GetLocal().netid then
+                    table.insert(PlayerList, {name = var[2]:match("`7%[``(.+) spun the"), netid = var[1]})
+                else
+                    AddOrUpdatePlayer(GetLocal().name:gsub("%[(.+)%]", ""), var[1])
+                end
+                local name = {}
+                name[0] = "OnNameChanged"
+                name[1] = GetName(var[1]) .. "`7[`4" .. h .. "``]"
+                SendVariant(name, tonumber(var[1]))
+                if var[1] ~= GetLocal().netid then
+                    SendVariant({
+                        [0] = "OnTalkBubble",
+                        [1] = var[1],
+                        [2] = "`7[`2REAL``]" .. var[2] .. getGame(tonumber(h)),
+                        [3] = 0,
+                    }, -1)
+                else
+                    SendVariant({
+                        [0] = "OnTalkBubble",
+                        [1] = GetLocal().netid,
+                        [2] = "`7[`2REAL``]`7[``" .. GetLocal().name:gsub("%[(.-)%]", ""):gsub("`.","") .. "`7 spun the wheel and got " .. var[2]:match("and got (.+)%!`7]") .. "!`7]" .. getGame(tonumber(h)),
+                    }, -1)
+                end
+                table.insert(LogSpin, {spin = "\nadd_label_with_icon_button|small|`7[`2REAL``] " .. var[2] .. "|left|758|" .. var[1] .. "|\n", netid = var[1],spins = var[2]})
+                return true
+            end
+        end
+        return false
+    end
+    end
+        
+         if var[0] == "OnDialogRequest" then
+        if fdrop == true then
+        if var[1]:find("drop") then
+        tlepe = var[1]:match("add_text_input|count||(%d+)")
+        idtem = var[1]:match("embed_data|itemID|(%d+)")
+        DropItem(idtem, tlepe)
+        return true
+        end
+        end
+        end
+        
+         if var[0] == "OnDialogRequest" then
+        if ftrash == true then
+        if var[1]:find("Trash") then
+        Putih = var[1]:match("you have (%d+)")
+        Hitam = var[1]:match("embed_data|itemID|(%d+)")
+        TrashItem(Hitam, Putih)
+        return true
+        end
+        end
+        end
+        
+        if var[0] == "OnConsoleMessage" then
+        if var[1]:match("Collected `w(%d+) World Lock``") then
+        wear(242)
+        return true
+        end
+        end
+        
+if var[0] == "OnConsoleMessage" then
+if var[1]:find("CT:") then
+if var[1]:find("from") then
+sj = var[1]:match("from(.+)")
+logToConsole("CP:0_PL:4_OID:_CT:[SB]_ `0[ `#W i R U P`0]`0"..sj)
+return true
+end
+end
+end
+
+        if var[0] == "OnDialogRequest" then
+        if pull == true then
+        if var[1]:find("pull") or var[1]:find("kick") or var[1]:find("worldban") then
+        return true
+        end
+        end
+        end
+        
+                if var[0] == "OnDialogRequest" then
+        if kick == true then
+        if var[1]:find("pull") or var[1]:find("kick") or var[1]:find("worldban") then
+        return true
+        end
+        end        
+        end
+        
+                if var[0] == "OnDialogRequest" then
+        if ban == true then
+        if var[1]:find("pull") or var[1]:find("kick") or var[1]:find("worldban") then
+        return true
+        end
+        end
+        end
+        
+        if var[0] == "OnDialogRequest" then
+        if var[1]:find("drop") then
+        return true
+        end
+        end
+        
+
+return false
+end)
+
+ sendVariant({ 
+         [0] = "OnDialogRequest", 
+         [1] = loginp, 
+ }, -1, 3500)
+ sendVariant({
+         [0] = "OnAddNotification",
+         [1] = "game/moon.rttex",
+         [2] = "``[`#W i R U P``] Started...",
+         [3] = "audio/gountlet_spawn.wav",
+         [4] = {0},
+          }, -1)
+
+sendPacket(2,"action|input\n|text|Proxy Active")
+SleepS(5)
+ovlay("Please Dont Resell This Script")
+SleepS(5)
+ovlay("Enjoy the script !!!")
+
+
+
+-- end proxy
+ -- <3 W i R U P Proxy
+ -- 
+ -- thanks :)
+ 
+ -- READ
+ -- Please DO NOT modify the source code and sell it as your own! do not do this! Be a little original and write your own script. Improve yourself.
